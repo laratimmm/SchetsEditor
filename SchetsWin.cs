@@ -41,6 +41,8 @@ public class SchetsWin : Form
                                 , new VolRechthoekTool()
                                 , new TekstTool()
                                 , new GumTool()
+                                , new OvaalTool() //toegevoegd
+                                , new VolOvaalTool() //toegevoegd
                                 };
         String[] deKleuren = { "Black", "Red", "Green", "Blue", "Yellow", "Magenta", "Cyan" };
 

@@ -49,4 +49,22 @@ public class SchetsEditor : Form
     {   
         this.Close();
     }
+
+    private void InitializeComponent()
+    {
+            this.SuspendLayout();
+            // 
+            // SchetsEditor
+            // 
+            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.Name = "SchetsEditor";
+            this.Load += new System.EventHandler(this.SchetsEditor_Load);
+            this.ResumeLayout(false);
+
+    }
+
+    private void SchetsEditor_Load(object sender, EventArgs e)
+    {
+
+    }
 }

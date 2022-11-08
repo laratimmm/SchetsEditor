@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 public class Schets
 {
     private Bitmap bitmap;
-        
+
     public Schets()
     {
         bitmap = new Bitmap(1, 1);
@@ -18,7 +20,7 @@ public class Schets
     {
         if (sz.Width > bitmap.Size.Width || sz.Height > bitmap.Size.Height)
         {
-            Bitmap nieuw = new Bitmap( Math.Max(sz.Width,  bitmap.Size.Width)
+            Bitmap nieuw = new Bitmap(Math.Max(sz.Width, bitmap.Size.Width)
                                      , Math.Max(sz.Height, bitmap.Size.Height)
                                      );
             Graphics gr = Graphics.FromImage(nieuw);
@@ -40,4 +42,14 @@ public class Schets
     {
         bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
     }
+    public void ThisSave(string format = "jpg")
+    {
+        if (format == "jpg")
+            bitmap.Save("img.jpg", ImageFormat.Jpeg);
+        if (format == "png")
+            bitmap.Save("img.png", ImageFormat.Png);
+        if (format == "bmp")
+            bitmap.Save("img.bmp", ImageFormat.Bmp);
+    }
+    
 }
