@@ -7,6 +7,7 @@ using System.Windows.Forms;
 public class Schets
 {
     public Bitmap bitmap;
+    public bool saveStatus = false;//Toegevoegd2
 
     public Schets()
     {
@@ -42,7 +43,6 @@ public class Schets
     {
         bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
     }
-    //hieronder is toegevoegd.
     
     
 }

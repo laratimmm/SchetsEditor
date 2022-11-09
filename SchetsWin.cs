@@ -68,12 +68,36 @@ public class SchetsWin : Form
             plaatje.Save(FileName, ImageFormat.Bmp);
         else
             MessageBox.Show("Leer programmeren kut");
+        schetscontrol.Schets.saveStatus = true;
 
     }
-    private void afsluiten(object obj, EventArgs ea)
+    private void afsluitenHandler(object obj, FormClosingEventArgs fcea)//Toegevoegd2
     {
-        this.Close();
+        if (schetscontrol.Schets.saveStatus == false)
+        {
+            DialogResult result;
+            result = MessageBox.Show("Er is niet opgeslagen. Wil je doorgaan?","Niet opgeslagen", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.Cancel)
+            {
+                fcea.Cancel = true;
+            }       
+        }
     }
+    private void afsluiten(object obj, EventArgs ea)//Toegevoegd2
+    {
+        if (schetscontrol.Schets.saveStatus == false)
+        {
+            
+            if (MessageBox.Show("Er is niet opgeslagen. Wil je doorgaan?", "Niet opgeslagen", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                schetscontrol.Schets.saveStatus = true;//Dit moet gebeuren omdat de afsluitenHandler ook nog gepasseerd wordt na de afsluiten handler wanneer je via het dropdownmenu afsluit.
+                this.Close();
+            }
+        }
+        else this.Close();
+    }
+    
+
 
     public SchetsWin()
     {
@@ -121,6 +145,8 @@ public class SchetsWin : Form
         this.maakActieButtons(deKleuren);
         this.Resize += this.veranderAfmeting;
         this.veranderAfmeting(null, null);
+        this.FormClosing += afsluitenHandler;
+        
     }
 
     private void maakFileMenu()

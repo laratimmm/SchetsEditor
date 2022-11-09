@@ -20,6 +20,7 @@ public abstract class StartpuntTool : ISchetsTool
     }
     public virtual void MuisLos(SchetsControl s, Point p)
     {   kwast = new SolidBrush(s.PenKleur);
+        s.Schets.saveStatus = false;//Toegevoegd2
     }
     public abstract void MuisDrag(SchetsControl s, Point p);
     public abstract void Letter(SchetsControl s, char c);
