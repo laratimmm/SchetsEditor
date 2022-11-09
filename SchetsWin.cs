@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 
 public class SchetsWin : Form
 {   
@@ -28,6 +33,43 @@ public class SchetsWin : Form
         this.huidigeTool = (ISchetsTool)((RadioButton)obj).Tag;
     }
 
+    string ThisFile = "";
+    string format;
+    private void opslaanals(object sender, EventArgs e) //Toegevoegd2
+    {
+        
+        SaveFileDialog saveIt = new SaveFileDialog();
+        saveIt.Filter = ".jpg|*.jpg|.png|*.png|.bmp|*.bmp";
+        
+        if (saveIt.ShowDialog() == DialogResult.OK)
+        {
+            ThisFile = saveIt.FileName;
+            daadwerkelijkOpslaan(ThisFile);
+        }
+    }
+
+    private void opslaan(object sender, EventArgs e) //Toegevoegd2
+    {
+        if (ThisFile == "")
+            opslaanals(sender, e);
+        else
+            daadwerkelijkOpslaan(ThisFile);
+    }
+ 
+    private void daadwerkelijkOpslaan(string FileName)//Toegevoegd2
+    {
+        format = ThisFile.Substring(FileName.LastIndexOf(".") + 1);
+        Bitmap plaatje = schetscontrol.Schets.bitmap;
+        if (format == "jpg")
+            plaatje.Save(FileName, ImageFormat.Jpeg);
+        else if (format == "png")
+            plaatje.Save(FileName, ImageFormat.Png);
+        else if (format == "bmp")
+            plaatje.Save(FileName, ImageFormat.Bmp);
+        else
+            MessageBox.Show("Leer programmeren kut");
+
+    }
     private void afsluiten(object obj, EventArgs ea)
     {
         this.Close();
@@ -85,6 +127,8 @@ public class SchetsWin : Form
     {   
         ToolStripMenuItem menu = new ToolStripMenuItem("File");
         menu.MergeAction = MergeAction.MatchOnly;
+        menu.DropDownItems.Add("Opslaan", null, this.opslaan);
+        menu.DropDownItems.Add("Opslaan als", null, this.opslaanals);
         menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
         menuStrip.Items.Add(menu);
     }

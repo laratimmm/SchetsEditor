@@ -45,6 +45,7 @@ public class SchetsEditor : Form
         s.MdiParent = this;
         s.Show();
     }
+
     private void afsluiten(object sender, EventArgs e)
     {   
         this.Close();

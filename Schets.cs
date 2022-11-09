@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 public class Schets
 {
-    private Bitmap bitmap;
+    public Bitmap bitmap;
 
     public Schets()
     {
@@ -42,14 +42,7 @@ public class Schets
     {
         bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
     }
-    public void ThisSave(string format = "jpg")
-    {
-        if (format == "jpg")
-            bitmap.Save("img.jpg", ImageFormat.Jpeg);
-        if (format == "png")
-            bitmap.Save("img.png", ImageFormat.Png);
-        if (format == "bmp")
-            bitmap.Save("img.bmp", ImageFormat.Bmp);
-    }
+    //hieronder is toegevoegd.
+    
     
 }
