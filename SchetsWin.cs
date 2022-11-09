@@ -2,11 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 public class SchetsWin : Form
 {   
@@ -37,10 +33,10 @@ public class SchetsWin : Form
     string format;
     private void opslaanals(object sender, EventArgs e) //Toegevoegd2
     {
-        
+
         SaveFileDialog saveIt = new SaveFileDialog();
         saveIt.Filter = ".jpg|*.jpg|.png|*.png|.bmp|*.bmp";
-        
+
         if (saveIt.ShowDialog() == DialogResult.OK)
         {
             ThisFile = saveIt.FileName;
@@ -55,7 +51,7 @@ public class SchetsWin : Form
         else
             daadwerkelijkOpslaan(ThisFile);
     }
- 
+
     private void daadwerkelijkOpslaan(string FileName)//Toegevoegd2
     {
         format = ThisFile.Substring(FileName.LastIndexOf(".") + 1);
@@ -76,18 +72,18 @@ public class SchetsWin : Form
         if (schetscontrol.Schets.saveStatus == false)
         {
             DialogResult result;
-            result = MessageBox.Show("Er is niet opgeslagen. Wil je doorgaan?","Niet opgeslagen", MessageBoxButtons.OKCancel);
+            result = MessageBox.Show("Er is niet opgeslagen. Wil je doorgaan?", "Niet opgeslagen", MessageBoxButtons.OKCancel);
             if (result == DialogResult.Cancel)
             {
                 fcea.Cancel = true;
-            }       
+            }
         }
     }
     private void afsluiten(object obj, EventArgs ea)//Toegevoegd2
     {
         if (schetscontrol.Schets.saveStatus == false)
         {
-            
+
             if (MessageBox.Show("Er is niet opgeslagen. Wil je doorgaan?", "Niet opgeslagen", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 schetscontrol.Schets.saveStatus = true;//Dit moet gebeuren omdat de afsluitenHandler ook nog gepasseerd wordt na de afsluiten handler wanneer je via het dropdownmenu afsluit.
@@ -96,7 +92,6 @@ public class SchetsWin : Form
         }
         else this.Close();
     }
-    
 
 
     public SchetsWin()
@@ -110,7 +105,7 @@ public class SchetsWin : Form
                                 , new OvaalTool() //toegevoegd
                                 , new VolOvaalTool() //toegevoegd
                                 };
-        String[] deKleuren = { "Black", "Red", "Green", "Blue", "Yellow", "Magenta", "Cyan" };
+        String[] deKleuren = { "Black", "Red", "Green", "Blue", "Yellow", "Magenta", "Cyan", "White"};  // Bijgewerkt aan kleuren
 
         this.ClientSize = new Size(700, 500);
         huidigeTool = deTools[0];
@@ -146,7 +141,6 @@ public class SchetsWin : Form
         this.Resize += this.veranderAfmeting;
         this.veranderAfmeting(null, null);
         this.FormClosing += afsluitenHandler;
-        
     }
 
     private void maakFileMenu()
