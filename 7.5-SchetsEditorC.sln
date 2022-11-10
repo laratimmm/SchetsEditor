@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "7.5-SchetsEditorC", "7.5-SchetsEditorC.csproj", "{3D80A164-A628-48D9-8956-1FC6D71C2A5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "7.5-SchetsEditorC", "7.5-SchetsEditorC.csproj", "{72AA0256-AA13-4268-91FD-BA1D59BE1A27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3D80A164-A628-48D9-8956-1FC6D71C2A5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D80A164-A628-48D9-8956-1FC6D71C2A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D80A164-A628-48D9-8956-1FC6D71C2A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D80A164-A628-48D9-8956-1FC6D71C2A5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72AA0256-AA13-4268-91FD-BA1D59BE1A27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72AA0256-AA13-4268-91FD-BA1D59BE1A27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72AA0256-AA13-4268-91FD-BA1D59BE1A27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72AA0256-AA13-4268-91FD-BA1D59BE1A27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {929D728A-980E-4762-B2C2-649DD523977A}
+		SolutionGuid = {7B4B6168-B64C-4986-B739-ADF68F629D99}
 	EndGlobalSection
 EndGlobal

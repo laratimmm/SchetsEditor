@@ -2,6 +2,8 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
+
 
 public interface ISchetsTool
 {
@@ -18,63 +20,80 @@ public abstract class StartpuntTool : ISchetsTool
     protected Brush kwast;
 
     public virtual void MuisVast(SchetsControl s, Point p)
-    {   startpunt = p;
+    {
+        startpunt = p;
     }
     public virtual void MuisLos(SchetsControl s, Point p)
-    {   kwast = new SolidBrush(s.PenKleur);
+    {
+        kwast = new SolidBrush(s.PenKleur);
         s.Schets.saveStatus = false; // toegevoegd2
     }
     public virtual void MuisDrag(SchetsControl s, Point p) { }
     public virtual void Letter(SchetsControl s, char c) { }
 }
 
-public class TekstTool : StartpuntTool
+public class TekstTool : StartpuntTool //Aangepast3
 {
+    TekstObject tekst;
+    public override void MuisLos(SchetsControl s, Point p)
+    {
+        base.MuisLos(s, p); //toegevoegd3
+        tekst = new TekstObject(p, kwast);//toegevoegd3
+        s.Schets.ObjectenLijst.Add(tekst);
+        
+    }
+    
     public override string ToString() { return "tekst"; }
 
     public override void MuisDrag(SchetsControl s, Point p) { }
 
+    
     public override void Letter(SchetsControl s, char c)
     {
+        
         if (c >= 32)
         {
-            Graphics gr = s.MaakBitmapGraphics();
-            Font font = new Font("Tahoma", 40);
-            string tekst = c.ToString();
-            SizeF sz = 
-            gr.MeasureString(tekst, font, this.startpunt, StringFormat.GenericTypographic);
-            gr.DrawString   (tekst, font, kwast, 
-                                            this.startpunt, StringFormat.GenericTypographic);
-            // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
-            startpunt.X += (int)sz.Width;
+            tekst.charList.Add(c);
             s.Invalidate();
         }
+
+        if (c == 8)
+        {
+            tekst.charList.RemoveAt(tekst.charList.Count - 1);
+            s.Invalidate();
+        }
+        
     }
 }
 
 public abstract class TweepuntTool : StartpuntTool
 {
     public static Rectangle Punten2Rechthoek(Point p1, Point p2)
-    {   return new Rectangle( new Point(Math.Min(p1.X,p2.X), Math.Min(p1.Y,p2.Y))
-                            , new Size (Math.Abs(p1.X-p2.X), Math.Abs(p1.Y-p2.Y))
+    {
+        return new Rectangle(new Point(Math.Min(p1.X, p2.X), Math.Min(p1.Y, p2.Y))
+                            , new Size(Math.Abs(p1.X - p2.X), Math.Abs(p1.Y - p2.Y))
                             );
     }
     public static Pen MaakPen(Brush b, int dikte)
-    {   Pen pen = new Pen(b, dikte);
+    {
+        Pen pen = new Pen(b, dikte);
         pen.StartCap = LineCap.Round;
         pen.EndCap = LineCap.Round;
         return pen;
     }
     public override void MuisVast(SchetsControl s, Point p)
-    {   base.MuisVast(s, p);
+    {
+        base.MuisVast(s, p);
         kwast = Brushes.Gray;
     }
     public override void MuisDrag(SchetsControl s, Point p)
-    {   s.Refresh();
+    {
+        s.Refresh();
         this.Bezig(s.CreateGraphics(), this.startpunt, p);
     }
     public override void MuisLos(SchetsControl s, Point p)
-    {   base.MuisLos(s, p);
+    {
+        base.MuisLos(s, p);
         this.Compleet(s.MaakBitmapGraphics(), this.startpunt, p);
         s.Invalidate();
     }
@@ -83,9 +102,10 @@ public abstract class TweepuntTool : StartpuntTool
     }
     //zet bezig naar virtual
     public virtual void Bezig(Graphics g, Point p1, Point p2) { }
-        
+
     public virtual void Compleet(Graphics g, Point p1, Point p2)
-    {   this.Bezig(g, p1, p2);
+    {
+        this.Bezig(g, p1, p2);
     }
 }
 
@@ -103,7 +123,7 @@ public class RechthoekTool : TweepuntTool
         s.Invalidate();
     }
 }
-    
+
 public class VolRechthoekTool : RechthoekTool
 {
     public override string ToString() { return "vlak"; }
@@ -136,11 +156,12 @@ public class PenTool : LijnTool
     public override string ToString() { return "pen"; }
 
     public override void MuisDrag(SchetsControl s, Point p)
-    {   this.MuisLos(s, p);
+    {
+        this.MuisLos(s, p);
         this.MuisVast(s, p);
     }
 }
-   
+
 // Aanpassen: gum is geen subklasse van PenTool meer want het werkt volledig anders. muisdrag en letter niet aanwezig. wel als geklikt check welke er is aangeklikt.
 
 public class GumTool : StartpuntTool

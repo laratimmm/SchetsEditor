@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -83,6 +84,43 @@ public class TekenObject
     }
 }
 
+public class TekstObject : TekenObject //Toegevoegd3
+{
+    public Brush kwast;
+    public List<char> charList;
+    public TekstObject(Point p1, Brush kwast)
+    {
+        this.p1 = p1;
+        this.kwast = kwast;
+        this.charList = new List<char>();
+    }
+    public override void TekenZelf(Graphics g)
+    {
+        string uiteindelijkeTekst = "";
+        foreach (char c in charList)
+        {
+            uiteindelijkeTekst = String.Concat(uiteindelijkeTekst, c.ToString());
+        }
+        Console.WriteLine(uiteindelijkeTekst);
+        Font font = new Font("Tahoma", 40);
+        SizeF sz =
+        g.MeasureString(uiteindelijkeTekst, font, this.p1, StringFormat.GenericTypographic);
+        g.DrawString(uiteindelijkeTekst, font, kwast,
+                                        this.p1, StringFormat.GenericTypographic);
+        // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
+        this.p2.X = this.p1.X + (int)sz.Width;
+        this.p2.Y = this.p1.Y + (int)sz.Height;
+        
+    }
+
+    public override bool BenIkGeklikt(Point p)
+    {
+        if ((((p1.X <= p.X) && (p.X <= p2.X)) || ((p1.X >= p.X) && (p.X >= p2.X))) && (((p1.Y <= p.Y) && (p.Y <= p2.Y)) || ((p1.Y >= p.Y) && (p.Y >= p2.Y))))
+                return true;
+        else
+            return false;
+    }
+}
 public class RechthoekObject : TekenObject
 {
     public RechthoekObject(Point p1, Point p2, Brush kwast)
@@ -93,7 +131,7 @@ public class RechthoekObject : TekenObject
     }
 
     public override void TekenZelf(Graphics g)
-    { 
+    {
         g.DrawRectangle(pen, TweepuntTool.Punten2Rechthoek(p1, p2));
     }
 
@@ -114,7 +152,7 @@ public class RechthoekObjectVol : RechthoekObject
 {
     public Brush kwast;
 
-    public RechthoekObjectVol(Point p1, Point p2, Brush kwast) : base(p1,p2,kwast)
+    public RechthoekObjectVol(Point p1, Point p2, Brush kwast) : base(p1, p2, kwast)
     {
         this.p1 = p1;
         this.p2 = p2;
@@ -148,6 +186,8 @@ public class OvaalObject : TekenObject
     {
         g.DrawEllipse(pen, TweepuntTool.Punten2Rechthoek(p1, p2));
     }
+
+   
 }
 
 public class OvaalObjectVol : OvaalObject
@@ -164,6 +204,20 @@ public class OvaalObjectVol : OvaalObject
     public override void TekenZelf(Graphics g)
     {
         g.FillEllipse(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
+    }
+    
+    public override bool BenIkGeklikt(Point p)//Toegevoegd3. Werkt niet. Weet even niet wat ik eraan moet doen.
+    {
+        double a = Math.Abs(p1.X - p2.X);
+        double b = Math.Abs(p1.Y - p2.Y);
+        double yDis = b * Math.Sqrt(1 - (p.X * p.X / (a * a)));
+        double xDis = a * Math.Sqrt(1 - (p.Y * p.Y / (b * b)));
+        double centerx = p1.X + (p2.X - p1.X) / 2;
+        double centery = p1.Y + (p2.Y - p1.Y) / 2;
+        if ((((centerx - xDis <= p.X) && (p.X <= centerx + xDis)) && (((centery - yDis <= p.Y) && (p.Y <= centery + yDis)))))
+            return true;
+        else
+            return false;
     }
 }
 
