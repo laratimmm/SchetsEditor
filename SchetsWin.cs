@@ -80,7 +80,7 @@ public class SchetsWin : Form
             }
         }
     }
-    private void afsluiten(object obj, EventArgs ea)//Toegevoegd2
+    /*private void afsluiten(object obj, EventArgs ea)//Toegevoegd2
     {
         if (schetscontrol.Schets.saveStatus == false)
         {
@@ -92,7 +92,7 @@ public class SchetsWin : Form
             }
         }
         else this.Close();
-    }
+    }*/
 
 
     public SchetsWin()

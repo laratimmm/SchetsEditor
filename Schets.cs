@@ -71,7 +71,8 @@ public class TekenObject
     public Point p1;
     public Point p2;
     public Pen pen;
-    public int randdikte;
+    public int randdikte = 5;
+    
 
     public virtual void TekenZelf(Graphics g)
     {
@@ -206,15 +207,15 @@ public class OvaalObjectVol : OvaalObject
         g.FillEllipse(kwast, TweepuntTool.Punten2Rechthoek(p1, p2));
     }
     
-    public override bool BenIkGeklikt(Point p)//Toegevoegd3. Werkt niet. Weet even niet wat ik eraan moet doen.
+    public override bool BenIkGeklikt(Point p)//Toegevoegd3. Werkt!
     {
         double a = Math.Abs(p1.X - p2.X);
         double b = Math.Abs(p1.Y - p2.Y);
         double yDis = b * Math.Sqrt(1 - (p.X * p.X / (a * a)));
         double xDis = a * Math.Sqrt(1 - (p.Y * p.Y / (b * b)));
-        double centerx = p1.X + (p2.X - p1.X) / 2;
-        double centery = p1.Y + (p2.Y - p1.Y) / 2;
-        if ((((centerx - xDis <= p.X) && (p.X <= centerx + xDis)) && (((centery - yDis <= p.Y) && (p.Y <= centery + yDis)))))
+        double centerx = p1.X / 2 + p2.X / 2;
+        double centery = p1.Y / 2 + p2.Y / 2;
+        if ((((p1.X <= p.X) && (p.X <= p2.X)) || ((p1.X >= p.X) && (p.X >= p2.X)) && (((centery - yDis <= p.Y) && (p.Y <= centery + yDis)))))
             return true;
         else
             return false;
@@ -233,5 +234,16 @@ public class LijnObject : TekenObject
     public override void TekenZelf(Graphics g)
     {
         g.DrawLine(pen, p1, p2);
+    }
+
+    public override bool BenIkGeklikt(Point p)
+    {
+        // LineEquation krijg je uit point p1(x1, y1) and point p2(x2, y2). a= (y2-y1)/(x2-x1). b = y - ax.
+        double a = (p2.Y -p1.Y)/(p2.X - p1.X);
+        double b = p2.Y - a * p2.X;
+        if (p.Y <= a * p.X + b + randdikte && p.Y >= a * p.X + b - randdikte)
+            return true;
+        else
+            return false;
     }
 }
