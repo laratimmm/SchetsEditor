@@ -180,6 +180,11 @@ public class GumTool : StartpuntTool
             if (s.Schets.ObjectenLijst[i].BenIkGeklikt(p))
             {
                 s.Schets.ObjectenLijst.RemoveAt(i);
+                for (int j = i + 1; j < s.Schets.ObjectenLijst.Count; j++)
+                {
+                    s.Schets.ObjectenLijst[j - 1] = s.Schets.ObjectenLijst[j];
+                }
+                s.Schets.ObjectenLijst.RemoveAt(s.Schets.ObjectenLijst.Count - 1);
                 s.Invalidate();
                 break;
             }
